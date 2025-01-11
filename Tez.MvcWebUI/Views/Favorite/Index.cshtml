@@ -1,0 +1,64 @@
+﻿@model Tez.MvcWebUI.Models.FavoriteModel
+@{
+    ViewBag.Title = "Favorilerim";
+}
+
+<div class="container pb-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Favorilerim</h2>
+            <hr />
+
+            @if (Model == null || !Model.FavoriteLines.Any())
+            {
+                <div class="alert alert-secondary" role="alert">
+                    Favorilerinizde ürün bulunmamaktadır!
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th width="50"></th>
+                            <th>Ürün</th>
+                            <th>Fiyat</th>
+                            <th width="289"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.FavoriteLines)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="~/Upload/@item.Image" width="50" />
+                                </td>
+                                <td>@item.ProductName</td>
+                                <td>@item.Price ₺</td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        @using (Html.BeginForm("RemoveFromFavorites", "Favorite"))
+                                        {
+                                            @Html.Hidden("productId", item.ProductId)
+                                            <button type="submit" class="btn btn-danger">
+                                                Favorilerden Kaldır
+                                            </button>
+                                        }
+
+                                        @using (Html.BeginForm("RemoveAndAddToCart", "Favorite"))
+                                        {
+                                            @Html.Hidden("productId", item.ProductId)
+                                            <button type="submit" class="btn btn-success">
+                                                Sepete Ekle
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@using Tez.MvcWebUI.Models;
+@model IEnumerable<ProductModel>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
+
+    @foreach (var urun in Model)
+    {
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-img">
+                    <a href="/Product/Details/@urun.Id" class="card-details">
+                        <img src="~/Upload/@urun.Image" class="card-img-top" alt="@urun.Name">
+                    </a>
+                </div>
+                <div class="card-body">
+                    <h5>
+                        <a class="card-title" href="/Product/Details/@urun.Id">@urun.Name</a>
+                    </h5>
+                </div>
+                <div class="card-footer">
+                    <small class="product-price">
+                        @urun.Price ₺
+                    </small>
+                    <a href="/Product/Details/@urun.Id" class="card-details">
+                        Ürünü incele
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

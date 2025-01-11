@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Tez.MvcWebUI.Models.ProductModel>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center mb-5">
+        Henüz favorilenmiş bir ürün bulunmamaktadır.
+    </div>
+}
+else
+{
+    <div id="topFavoritedSlider" class="carousel slide mb-5" data-bs-ride="carousel" style="max-height: 400px;">
+        <div class="carousel-inner rounded-3 mb-5 border">
+            @foreach (var (product, index) in Model.Select((p, i) => (p, i)))
+            {
+                <div class="carousel-item @(index == 0 ? "active" : "")">
+                    <div class="row align-items-center">
+                        <div class="col-lg-1 d-none d-lg-block">
+                            <!-- Boşluk için -->
+                        </div>
+                        <!-- Sol tarafta resim -->
+                        <div class="col-lg-5 col-md-6 col-12">
+                            <a href="@Url.Action("Details", "Product", new { id = product.Id })">
+                                <img src="@Url.Content("~/Upload/" + product.Image)" class="d-block w-100 rounded-start" alt="@product.Name" style="height: 400px; object-fit: cover;">
+                            </a>
+                        </div>
+                        <div class="col-lg-1 d-none d-lg-block">
+                            <!-- Boşluk için -->
+                        </div>
+                        <!-- Sağ tarafta yazılar ve buton -->
+                        <div class="col-lg-5 col-md-6 col-12 d-flex flex-column justify-content-center align-items-start p-4 d-none d-md-flex">
+                            <h5>@product.Name</h5>
+                            <p>@product.FavoriteCount kez favorilendi</p>
+                            <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-primary">Ürünü İncele</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Önceki butonu -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#topFavoritedSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Önceki</span>
+        </button>
+
+        <!-- Sonraki butonu -->
+        <button class="carousel-control-next" type="button" data-bs-target="#topFavoritedSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Sonraki</span>
+        </button>
+    </div>
+}

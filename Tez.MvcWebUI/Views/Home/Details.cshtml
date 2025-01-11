@@ -1,0 +1,149 @@
+﻿@using Tez.MvcWebUI.Entity;
+@model Product
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<div id="product-details" class="container pb-5">
+    <div class="row">
+        <div class="col-md-5">
+            <img src="~/Upload/@Model.Image" class="img-fluid rounded">
+        </div>
+        <div class="col-md-1"></div>
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>@Model.Name</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @if (Model.IsApproved)
+                    {
+                        <span class="badge bg-success">Stokta Var</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Stokta Yok</span>
+                    }
+                    <span class="product-number">@Model.Code</span>
+                </div>
+            </div>
+            <hr />
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="bd-example m-0 border-0">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="urun-tab" data-bs-toggle="tab" href="#urun" role="tab" aria-controls="urun" aria-selected="true">Ürün Özellikleri</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="yorum-tab" data-bs-toggle="tab" href="#yorum" role="tab" aria-controls="yorum" aria-selected="false">Yorumlar</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="urun" role="tabpanel" aria-labelledby="urun-tab">
+                                <div id="features" class="mt-2">
+                                    <h4>Ürün Özellikleri</h4>
+                                    @if (Model.Features != null)
+                                    {
+                                        @Html.Raw(Model.Features.Replace("\n", "<br />"))
+                                    }
+                                    else
+                                    {
+                                        @Model.Features
+                                    }
+                                </div>
+                                <hr />
+                            </div>
+                            <div class="tab-pane fade" id="yorum" role="tabpanel" aria-labelledby="yorum-tab">
+                                <div class="add-comment mt-2">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <h4>Yorum Yap</h4>
+                                        using (Html.BeginForm("AddComment", "Product"))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.Hidden("productId", Model.Id)
+                                            <textarea name="content" class="form-control" rows="4" placeholder="Yorumunuzu yazın..."></textarea>
+                                            <button type="submit" class="btn btn-primary btn-sm mt-3">Gönder</button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p>Yorum yapabilmek için <a href="/Account/Login">giriş yapın</a>.</p>
+                                    }
+                                </div>
+                                <hr />
+                                <div class="comments-section">
+                                    @if (Model.Comments != null && Model.Comments.Any())
+                                    {
+                                        <ul>
+                                            @foreach (var comment in Model.Comments)
+                                            {
+                                                <li class="comment-box">
+                                                    <strong>@comment.UserName</strong> - @comment.Date.ToString("dd MMM yyyy")
+                                                    <p>@comment.Content</p>
+
+                                                    @if (User.IsInRole("admin") || comment.UserName == User.Identity.Name)
+                                                    {
+                                                        <a href="@Url.Action("DeleteComment", "Product", new { commentId = comment.Id, productId = Model.Id })"
+                                                           id="delete-comment"
+                                                           class="btn btn-danger btn-sm"
+                                                           onclick="return confirm('Bu yorumu silmek istediğinize emin misiniz?');">
+                                                            Sil
+                                                        </a>
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-secondary" role="alert">
+                                            Henüz yorum yapılmamış.
+                                        </div>
+                                    }
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 d-flex">
+                    <h4 id="product-price">@Model.Price ₺</h4>
+
+                    @using (Html.BeginForm("AddToCart", "Cart"))
+                    {
+                        @Html.HiddenFor(i => i.Id)
+                        <button type="submit" class="btn btn-primary ms-4">
+                            Sepete Ekle
+                        </button>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("AddToFavorites", "Favorite"))
+                        {
+                            @Html.Hidden("productId", Model.Id)
+                            <button type="submit" class="btn btn-info ms-3">
+                                Favorilere Ekle
+                            </button>
+                        }
+                    }
+
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-12">
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

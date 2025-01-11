@@ -1,0 +1,103 @@
+﻿@using Tez.MvcWebUI.Entity;
+@model Tez.MvcWebUI.Models.OrderDetailsModel
+@{
+    ViewBag.Title = Model.OrderNumber;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Sipariş Detay Bilgileri</h2>
+            <hr />
+
+            <dl class="row">
+                <dt class="col-sm-2">Sipariş Durumu</dt>
+                <dd class="col-sm-10">
+                    @if (Model.OrderState == EnumOrderState.Waiting)
+                    {
+                        <span class="badge text-bg-danger">Onay Bekleniyor</span>
+                    }
+                    else if (Model.OrderState == EnumOrderState.Confirmed)
+                    {
+                        <span class="badge text-bg-warning">Hazırlanıyor</span>
+                    }
+                    else if (Model.OrderState == EnumOrderState.Shipped)
+                    {
+                        <span class="badge text-bg-info">Kargoya Verildi</span>
+                    }
+                    else if (Model.OrderState == EnumOrderState.Completed)
+                    {
+                        <span class="badge text-bg-success">Teslim Edildi</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-2">Sipariş ID</dt>
+                <dd class="col-sm-10">@Model.OrderId</dd>
+
+                <dt class="col-sm-2">Sipariş Numarası</dt>
+                <dd class="col-sm-10">@Model.OrderNumber</dd>
+
+                <dt class="col-sm-2">Toplam Fiyat</dt>
+                <dd class="col-sm-10">@Model.Total ₺</dd>
+
+                <dt class="col-sm-2">Sipariş Tarihi</dt>
+                <dd class="col-sm-10">@Model.OrderDate</dd>
+
+                <dt class="col-sm-2">Ad Soyad</dt>
+                <dd class="col-sm-10">@Model.Ad @Model.Soyad</dd>
+
+                <dt class="col-sm-2">Telefon Numarası</dt>
+                <dd class="col-sm-10">@Model.Numara</dd>
+
+                <dt class="col-sm-2">Adres</dt>
+                <dd class="col-sm-10">
+                    @Model.AdresBasligi
+                    <hr />
+                    @Model.Adres
+                    <br />
+                    @Model.Sehir - @Model.Ilce
+                    <br />
+                    @Model.PostaKodu
+                </dd>
+
+                <dt class="col-sm-2">Ürünler</dt>
+                <dd class="col-sm-10">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="70">Resim</th>
+                                <th>Ürün Adı</th>
+                                <th>Adet</th>
+                                <th>Fiyat</th>
+                                <th width="108"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderLines)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="~/Upload/@item.Image" width="70" />
+                                    </td>
+                                    <td>
+                                        @item.ProductName
+                                    </td>
+                                    <td>
+                                        @item.Quantity
+                                    </td>
+                                    <td>
+                                        @item.Price ₺
+                                    </td>
+                                    <td>
+                                        <a href="/Home/Details/@item.ProductId" class="btn btn-primary btn-sm" target="_blank">Ürün Detayı</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,91 @@
+﻿@model Tez.MvcWebUI.Models.Cart
+@{
+    ViewBag.Title = "Sepetim";
+}
+
+<div class="container pb-5">
+    <div class="row">
+        <div class="col-md-12">
+
+            <h2>Alışveriş Sepeti</h2>
+            <hr />
+
+            @if (Model.CartLines.Count > 0)
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="50"></th>
+                            <th>Adet</th>
+                            <th>Ürün Adı</th>
+                            <th>Fiyat</th>
+                            <th>Ara Toplam</th>
+                            <th width="144"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartLines)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="~/Upload/@item.Product.Image" width="50" />
+                                </td>
+                                <td>
+                                    @item.Quantity
+                                </td>
+                                <td>
+                                    @item.Product.Name
+                                </td>
+                                <td>
+                                    ₺@item.Product.Price
+                                </td>
+                                <td>
+                                    @((item.Product.Price * item.Quantity).ToString("c"))
+                                </td>
+                                <td>
+                                    @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                                    {
+                                        @Html.Hidden("Id", item.Product.Id)
+                                        <button type="submit" class="btn btn-danger">
+                                            Sil
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="fw-bold ps-3">
+                                Sepet Toplamı
+                            </td>
+                            <td>
+                                @Model.Total().ToString("c")
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("ClearCart", "Cart"))
+                                {
+                                    <button type="submit" class="btn btn-secondary">
+                                        Sepeti Temizle
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="text-end">
+                    <a href="/Home/List" class="btn btn-success me-2">Alışverişe Devam Et</a>
+                    <a href="/Cart/Checkout" class="btn btn-success">Alışverişi Tamamla</a>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-secondary" role="alert">
+                    Alışveriş sepetinizde ürün bulunmamaktadır!
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>

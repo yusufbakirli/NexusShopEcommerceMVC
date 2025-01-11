@@ -1,0 +1,13 @@
+﻿@model  Tez.MvcWebUI.Models.Cart
+
+<style>
+    #cart {
+        color: white;
+    }
+</style>
+
+<li id="cart" class="nav-item">
+    <a class="nav-link" href="/Cart">
+        Sepetim (@Model.CartLines.Count)
+    </a>
+</li>

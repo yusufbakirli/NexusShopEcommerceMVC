@@ -1,0 +1,13 @@
+﻿@using Tez.MvcWebUI.Models;
+@model IEnumerable<ProductModel>
+@{
+    ViewBag.Title = "Ana Sayfa";
+}
+
+<div class="container pb-5">
+    <!-- En Çok Favorilenmiş Ürünler -->
+    <h2 class="mb-4">En Çok Favorilenmiş Ürünler</h2>
+    @Html.Action("GetTopFavoritedProducts", "Home") <!-- Dinamik PartialView -->
+    <!-- Diğer ürünler listesi -->
+    @Html.Partial("_ProductList", Model) <!-- Ana sayfa ürün listesi -->
+</div>
