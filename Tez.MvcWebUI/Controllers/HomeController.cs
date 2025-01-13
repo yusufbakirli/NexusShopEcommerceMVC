@@ -24,7 +24,7 @@ namespace Tez.MvcWebUI.Controllers
                     Name = i.Name.Length > 50 ? i.Name.Substring(0, 47) + "..." : i.Name,
                     Price = i.Price,
                     Code = i.Code,
-                    Image = i.Image ?? "1.jpg",
+                    Image = i.Image ?? "default.png",
                     CategoryId = i.CategoryId,
                     FavoriteCount = i.FavoriteCount // Favorilenme sayısını ekleyin
                 })
@@ -55,7 +55,7 @@ namespace Tez.MvcWebUI.Controllers
                     Name = i.Name.Length > 50 ? i.Name.Substring(0, 47) + "..." : i.Name,
                     Price = i.Price,
                     Code = i.Code,
-                    Image = i.Image ?? "1.jpg",
+                    Image = i.Image ?? "default.png",
                     FavoriteCount = i.FavoriteCount, // Favori sayısını ekledik
                     CategoryId = i.CategoryId
                 }).AsQueryable();
@@ -95,7 +95,7 @@ namespace Tez.MvcWebUI.Controllers
                     Name = i.Name,
                     Price = i.Price,
                     Code = i.Code,
-                    Image = i.Image ?? "1.jpg",
+                    Image = i.Image ?? "default.png",
                     CategoryId = i.CategoryId,
                     FavoriteCount = i.FavoriteCount
                 })

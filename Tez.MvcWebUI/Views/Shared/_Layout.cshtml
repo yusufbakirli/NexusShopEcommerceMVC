@@ -21,12 +21,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/List">Ürünler</a>
                     </li>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Favorite">Favorilerim</a>
-                        </li>
-                    }
+
                     @if (User.IsInRole("admin"))
                     {
                         <li class="nav-item">
@@ -41,8 +36,30 @@
                 </form>
 
                 <ul class="navbar-nav my-2 my-lg-0">
-                    @Html.Action("Summary", "Cart")
-                    @Html.Partial("_LoginPartial")
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.Action("Summary", "Cart")
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/Account">Siparişlerim</a></li>
+                                <li><a class="dropdown-item" href="/Favorite">Favorilerim</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/Account/Logout">Çıkış Yap</a></li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Account/Login">Giriş Yap</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Account/Register">Kayıt Ol</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

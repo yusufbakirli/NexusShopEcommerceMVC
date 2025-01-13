@@ -75,7 +75,6 @@ namespace Tez.MvcWebUI.Controllers
             return View(products.ToList());
         }
 
-        [Authorize(Roles = "admin")]
         public ActionResult DeleteComment(int commentId, int productId)
         {
             var comment = db.Comments.FirstOrDefault(c => c.Id == commentId);

@@ -52,7 +52,7 @@ namespace Tez.MvcWebUI.Controllers
                     {
                         ProductId = a.ProductId,
                         ProductName = a.Product.Name.Length > 50 ? a.Product.Name.Substring(0, 47) + "..." : a.Product.Name,
-                        Image = a.Product.Image,
+                        Image = a.Product.Image ?? "default.png",
                         Quantity = a.Quantity,
                         Price = a.Price,
                     }).ToList()

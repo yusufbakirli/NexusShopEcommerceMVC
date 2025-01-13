@@ -27,7 +27,7 @@ namespace Tez.MvcWebUI.Controllers
                         ProductId = fl.ProductId,
                         ProductName = fl.Product.Name,
                         Price = fl.Product.Price,
-                        Image = fl.Product.Image
+                        Image = fl.Product.Image ?? "default.png"
                     }).ToList()
                 }).FirstOrDefault();
 

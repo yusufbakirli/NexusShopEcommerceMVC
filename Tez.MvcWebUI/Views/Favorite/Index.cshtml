@@ -31,7 +31,9 @@
                         {
                             <tr>
                                 <td>
-                                    <img src="~/Upload/@item.Image" width="50" />
+                                    <a href="@Url.Action("Details", "Product", new { id = item.ProductId })">
+                                        <img src="~/Upload/@item.Image" width="50" alt="@item.ProductName" />
+                                    </a>
                                 </td>
                                 <td>@item.ProductName</td>
                                 <td>@item.Price ₺</td>
